@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NewsPaper index
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="table">
+		<h1>Rechercher un journal</h1>
+
+		{{ form_start(form) }}
+		<div class="form-row align-items-end">
+			<div class="col">
+				{{ form_row(form.titre) }}
+			</div>
+			<div class="col">
+				{{ form_row(form.cote) }}
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<button class="btn btn-primary">Rechercher</button>
+				</div>
+			</div>
+		</div>
+		{% do form.author.setRendered() %}
+		{{ form_end(form) }}
+
+
+		<table class="table">
+			<thead>
+				<tr class="table-primary">
+
+
+					<th>Title</th>
+					<th>Cote</th>
+					<th>Disponible</th>
+					<th>Date de création</th>
+<th>Action</th>
+
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for news_paper in news_papers %}
+					<tr class="table-warning">
+
+
+						<td>{{ news_paper.title }}</td>
+						<td>{{ news_paper.cote }}</td>
+						<td>{{ news_paper.availability ? 'Oui' : 'Non' }}</td>
+						<td>{{ news_paper.createdAt ? news_paper.createdAt|date('d-m-Y') : '' }}</td>
+						<td>
+							<a class="btn btn-primary" href="{{ path('news_paper_show', {'id': news_paper.id}) }}">show</a>
+							{% if is_granted('ROLE_VOLONTEER') %}
+								<a class="btn btn-success" href="{{ path('news_paper_edit', {'id': news_paper.id}) }}">edit</a>
+							{% endif %}
+
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="7">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% if is_granted('ROLE_VOLONTEER') %}
+			<a class="btn btn-warning" href="{{ path('news_paper_new') }}">Create new</a>
+		{% endif %}
+		</div>
+	{% endblock %}

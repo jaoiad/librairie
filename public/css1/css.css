@@ -1,0 +1,17 @@
+	body {
+		background-color: #70A99E;
+	}
+
+	.responsive {
+		width: 100%;
+		height: auto;
+	}
+
+	.jumbotron {
+		background-color: transparent !important;
+	}
+
+	.table {
+		margin-top: 30px;
+		padding: 30px;
+	}

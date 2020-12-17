@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Livre index
+{% endblock %}
+{% block body %}
+
+<div class="table">
+		<h1>Rechercher un ouvrage</h1>
+		
+			{{ form_start(form) }}
+			<div class="form-row align-items-end">
+				<div class="col">
+					{{ form_row(form.titre) }}
+				</div>
+				<div class="col">
+					{{ form_row(form.cote) }}
+				</div>
+				<div class="col">
+					{{ form_row(form.author) }}
+				</div>
+				<div class="col">
+					<div class="form-group">
+						<button class="btn btn-primary">Rechercher</button>
+					</div>
+				</div>
+			</div>
+			{{ form_end(form) }}
+	
+
+
+	<table class="table" id="lstindex">
+		<thead>
+			<tr class="table-warning">
+				<th>Title</th>
+				<th>Cote</th>
+				<th>Disponible</th>
+				<th>Auteur</th>
+				<th>Special</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for livre in livres %}
+				<tr class="table-warning">
+					<td>{{ livre.title }}</td>
+					<td>{{ livre.cote }}</td>
+					<td>{{ livre.availability ? 'Oui' : 'Non' }}</td>
+					<td>{{ livre.authtor }}</td>
+					<td>{{ livre.special ? 'Oui' : 'Non' }}</td>
+					<td>
+						<a class="btn btn-primary" href="{{ path('livre_show', {'id': livre.id}) }}">Voir</a>
+					</td>
+					{% if is_granted('ROLE_VOLONTEER') %}
+						<td>
+							<a class="btn btn-success" href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
+						</td>
+					{% endif %}
+				</tr>
+			</tbody>
+		</tbody>
+	</tr>
+
+ {% else %}
+	<tr>
+		<td colspan="8">no records found</td>
+	</tr>
+ {% endfor %}
+ </tbody>
+ </table>
+
+
+ {% if is_granted('ROLE_VOLONTEER') %}
+ <a class="btn btn-warning" href="{{ path('livre_new') }}">Créer un nouveau livre</a>
+ {% endif %}
+ {% endblock %}
+ {% block javascripts %}
+ <script>{% include "filter/_filters.js" %}</script>
+
+</div>
+{% endblock %}

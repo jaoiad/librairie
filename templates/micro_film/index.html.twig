@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MicroFilm index
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="table">
+<h1>Rechercher un MicroFilm</h1>
+
+		{{ form_start(form) }}
+		<div class="form-row align-items-end">
+			<div class="col">
+				{{ form_row(form.titre) }}
+			</div>
+			<div class="col">
+				{{ form_row(form.cote) }}
+			</div>
+			<div class="col">
+				{{ form_row(form.author) }}
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<button class="btn btn-primary">Rechercher</button>
+				</div>
+			</div>
+
+		</div>
+		{{ form_end(form) }}
+	
+
+
+	
+
+	<table class="table" id="lstindex">
+		<thead>
+			<tr class="table-primary">
+				<th>Title</th>
+				<th>Cote</th>
+				<th>Disponible</th>
+				<th>Date de création</th>
+				<th>Action</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for micro_film in micro_films %}
+				<tr class="table-warning">
+
+
+					<td>{{ micro_film.title }}</td>
+					<td>{{ micro_film.cote }}</td>
+					<td>{{ micro_film.availability ? 'Oui' : 'Non' }}</td>
+					<td>{{ micro_film.createdAt ? micro_film.createdAt|date('d-m-Y') : '' }}</td>
+					<td>
+						<a class="btn btn-primary" href="{{ path('micro_film_show', {'id': micro_film.id}) }}">show</a>
+
+						{% if is_granted('ROLE_VOLONTEER') %}
+							<a class="btn btn-success" href="{{ path('micro_film_edit', {'id': micro_film.id}) }}">edit</a>
+						{% endif %}
+
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="col md-4">
+		{% if is_granted('ROLE_VOLONTEER') %}
+			<a class="btn btn-warning href=" {{ path('micro_film_new') }}>Create new</a>
+		{% endif %}
+		{{ knp_pagination_render(micro_films) }}
+	</div>
+
+{% endblock %}
+{% block javascripts %}
+	<script>
+		{% include "filter/_filters.js" %}</script>
+</div>{% endblock %}

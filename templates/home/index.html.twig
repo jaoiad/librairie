@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Bibliotheque Guinot
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="example-wrapper">
+			{% if app.user %}
+				<h1>
+					✅	Bonjour
+					{{ app.user.firstname }}
+					!
+					<img src="image/2360.jpg" alt="picturesalonbibliotheque" class="responsive"/>
+				</h1>
+
+			{% else %}
+
+				<img src="image/2360.jpg" alt="picturesalonbibliotheque" class="responsive"/>
+
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
